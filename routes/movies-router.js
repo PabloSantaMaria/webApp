@@ -26,11 +26,7 @@ router.post('/', (req, res) => {
         duration: duration
     });
 
-    // movie.save().then(data => {
-    //     res.json(data);
-    // });
-
-    movie.save(function (err, movie) {
+    movie.save((err, movie) => {
         if (err) return console.error(err);
         res.json(movie);
     });
