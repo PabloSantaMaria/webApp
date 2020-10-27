@@ -1,5 +1,10 @@
 const express = require('express');
+
+//mongoose
 const mongoose = require('mongoose');
+//vanilla MongoDB
+// const {MongoClient} = require('mongodb');
+
 const bodyParser = require('body-parser');
 require('dotenv/config');
 
@@ -16,6 +21,10 @@ mongoose.connect(
     {useNewUrlParser: true, useUnifiedTopology: true}, 
     () => console.log('mongoDB connected')
 );
+
+// vanilla MongoDB
+// const client = new MongoClient(process.env.URI, {useNewUrlParser: true, useUnifiedTopology: true});
+// client.connect();
 
 // MIDDLEWARES
 app.use(bodyParser.json());

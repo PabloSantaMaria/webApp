@@ -2,15 +2,29 @@ const express = require('express');
 const Movie = require('../models/movies-model');
 const router = express.Router();
 
-router.get('/', (req, res) => (
-    Movie.find({}, (err, docs) => res.json(docs))
-));
+// Get all movie titles
+router.get('/', async (req, res) => {
+    try {
+        const movieTitles = await Movie.find({}, {title: 1, _id: 0});
+        res.json(movieTitles);
+    } 
+    catch (error) {
+        console.error(error);
+    }
+});
 
-router.get('/specific', (req, res) => (
-    res.send('specific movie')
-));
+// Get a specific movie
+router.get('/:movieId', async (req, res) => {
+    try {
+        const movie = await Movie.findById(req.params.movieId);
+        res.json(movie);
+    } catch (error) {
+        console.error(error);
+    }
+});
 
-router.post('/', (req, res) => {
+// Add a movie
+router.post('/insert', async (req, res) => {
 
     const {title, year, rating, genre, description, actors, country, income, duration} = req.body;
 
@@ -26,10 +40,13 @@ router.post('/', (req, res) => {
         duration: duration
     });
 
-    movie.save((err, movie) => {
-        if (err) return console.error(err);
-        res.json(movie);
-    });
+    try {
+        const savedMovie = await movie.save();
+        res.json(savedMovie);
+    } 
+    catch (error) {
+        console.error(error);
+    }
 
 });
 
