@@ -5,7 +5,7 @@ const router = express.Router();
 // Get all movie titles
 router.get('/', async (req, res) => {
     try {
-        const movieTitles = await Movie.find({}, {title: 1, _id: 0});
+        const movieTitles = await Movie.find({}, {title: 1, _id: 1});
         res.json(movieTitles);
     } 
     catch (error) {
@@ -48,6 +48,30 @@ router.post('/insert', async (req, res) => {
         console.error(error);
     }
 
+});
+
+// Delete a movie
+router.delete('/:movieId', async (req, res) => {
+    try {
+        const deleted = await Movie.deleteOne({_id: req.params.movieId});
+        res.json(deleted);
+    } 
+    catch (error) {
+        console.error(error);
+    }
+});
+
+// Update a movie title
+router.patch('/:movieId', async (req, res) => {
+    try {
+        const updated = await Movie.updateOne(
+            {_id: req.params.movieId},
+            {$set: {title: req.body.title}}
+        )
+        res.json(updated);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 module.exports = router;

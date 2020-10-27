@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 //vanilla MongoDB
 // const {MongoClient} = require('mongodb');
 
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 require('dotenv/config');
 
 const homeRouter = require('./routes/home-router');
@@ -27,7 +27,8 @@ mongoose.connect(
 // client.connect();
 
 // MIDDLEWARES
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use('/', homeRouter);
 app.use('/movies', moviesRouter);
 
